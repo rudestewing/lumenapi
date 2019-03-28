@@ -14,3 +14,22 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+
+$router->group(['prefix' => 'auth'], function() use ($router) {
+    $router->post('/register', 'AuthController@register');
+    $router->post('/login', 'AuthController@login');
+
+    $router->group(['middleware' => ['auth']], function() use ($router) {
+        $router->get('/logout', 'AuthController@logout');
+    }); 
+});
+
+$router->group(['middleware' => ['auth']], function() use ($router) {
+    $router->group(['prefix' => 'todo'], function() use ($router) {
+        $router->get('/', 'TodoController@index');
+        $router->post('/create', 'TodoController@create');
+        $router->put('/update/{id}', 'TodoController@update');
+        $router->delete('/delete/{id}', 'TodoController@delete');
+    });
+});
