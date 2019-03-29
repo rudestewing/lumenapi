@@ -12,7 +12,7 @@ class TodoController extends Controller
         $data = Todo::all();
         
         return response()->json([
-            'data' => $data
+            'data' => $data[0]->user->name
         ], 200);
     }
 
@@ -30,7 +30,7 @@ class TodoController extends Controller
 
     public function update(Request $req, $id)
     {
-        
+
     }
 
     public function delete(Request $req, $id)
